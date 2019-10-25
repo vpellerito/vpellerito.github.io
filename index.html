@@ -25,8 +25,30 @@
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    var oXHR = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
+    function reportStatus() {
+        if (oXHR.readyState == 4)                   // Request completed.
+            showTheList(this.responseText);         // All set. Now show the data.
+    }
+
+    oXHR.onreadystatechange = reportStatus;
+    oXHR.open("GET", "/assets/WorkExperience.json", true);          // true = ASYNCHRONOUS REQUEST (DESIRABLE), false = SYNCHRONOUS REQUEST.
+    oXHR.send();
+
+    function showTheList(json) {
+        var arrItems = [];
+        arrItems = JSON.parse(json); 	// Fill JSON data to an array.
+
+        // Now you can use the data in the array for different purpose.
+        // I am simply showing the data on my web page using the <p> element.
+        for (i = 0; i <= arrItems.length - 1; i++) {
+            var p = document.getElementById('birds');
+            p.innerHTML = p.innerHTML + ' <br > ' + arrItems[i].Name;
+        }
+    }
+</script>
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="../../dist/images/favicon.png">
